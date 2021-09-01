@@ -5,7 +5,12 @@ import mongoose from 'mongoose'
 const userSchems = mongoose.Schema({
     first_name: String,
     last_name: String,
-    email: String,
+    dob: Date,
+    department: String,
+    email: { type: String, required: [true, 'Email required'], unique: true },
+    phone: Number,
+    address: String,
+    role: [String],
     password: String,
     createdAt: {
         type: Date,
@@ -13,6 +18,6 @@ const userSchems = mongoose.Schema({
     }
 })
 
-const UserSchema = mongoose.model('UserSchema', userSchems);
+const UserSchema = mongoose.model('users', userSchems);
 
 export default UserSchema;
