@@ -32,6 +32,17 @@ export const updateUser = async (req, res) => {
     const { id: _id } = req.params// get user by id
     const user = req.body//get new user data
     if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('User not exist this id') // before update check user existance
-    const updatedUser = await UsersModel.findByIdAndUpdate(_id, user, { new: true }) // add new data to existing user
-    res.json(updateUser) // send updated use data
+
+    const updatedUser = await UsersModel.findByIdAndUpdate(_id, { ...user, _id }, { new: true }) // Update the new user
+    res.json(updatedUser) // send updated use data
+}
+
+// delete user by id
+export const deleteUser = async (req, res) => {
+    const { id } = req.params// get user by id
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('User not exist this id') // before delete check user existance
+
+    await UsersModel.findByIdAndRemove(id) // find and remove the user
+    res.json({ message: 'User deleted' }) // send updated use data
 }
